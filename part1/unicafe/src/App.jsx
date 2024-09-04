@@ -8,9 +8,18 @@ const Display = (props) => {
 
 const Statistics = (props) => {
 
-  let total = props.good + props.neutral + props.bad
-  let average = (total === 0) ? 0 : (props.good * 1 + props.neutral * 0 + props.bad * (-1)) / total
-  let positive = (total === 0) ? 0 : (props.good / total) * 100
+  const total = props.good + props.neutral + props.bad
+  const average = (total === 0) ? 0 : (props.good * 1 + props.neutral * 0 + props.bad * (-1)) / total
+  const positive = (total === 0) ? 0 : (props.good / total) * 100
+
+  if (total === 0) {
+    return (
+      <>
+        <h1>Statistics</h1>
+        <div>No feedback given</div>
+      </>
+    )
+  }
 
   return (
     <>
@@ -30,8 +39,6 @@ const App = () => {
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
-
-
 
   return (
     <div>
