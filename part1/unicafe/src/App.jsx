@@ -8,7 +8,10 @@ const Button = (props) => (
 
 const StatisticLine = (props) => {
   return (
-    <div>{props.category} {props.value} {props.unit}</div>
+    <tr>
+      <td>{props.category}</td>
+      <td>{props.value} {props.unit}</td>
+    </tr>
   )
 }
 
@@ -30,12 +33,16 @@ const Statistics = (props) => {
   return (
     <>
       <h1>Statistics</h1>
-      <StatisticLine category="good" value={props.good} />
-      <StatisticLine category="neutral" value={props.neutral} />
-      <StatisticLine category="bad" value={props.bad} />
-      <StatisticLine category="all" value={total} />
-      <StatisticLine category="average" value={average} />
-      <StatisticLine category="positive" value={positive} unit="%" />
+      <table>
+        <tbody>
+          <StatisticLine category="good" value={props.good} />
+          <StatisticLine category="neutral" value={props.neutral} />
+          <StatisticLine category="bad" value={props.bad} />
+          <StatisticLine category="all" value={total} />
+          <StatisticLine category="average" value={average} />
+          <StatisticLine category="positive" value={positive} unit="%" />
+        </tbody>
+      </table>
     </>
   )
 }
