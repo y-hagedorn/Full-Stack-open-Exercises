@@ -1,5 +1,9 @@
 import { useState } from 'react'
 
+import PersonForm from './components/PersonForm'
+import PersonList from './components/PersonList'
+import SearchFilter from './components/SearchFilter'
+
 const App = () => {
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas', number: '040-123456'},
@@ -57,28 +61,19 @@ const App = () => {
     setSearchName(event.target.value)
   }
 
-  const personsToShow = persons.filter(person =>
-    person.name.toLowerCase().includes(searchName.toLowerCase())
-  )
-
   return (
     <div>
       <h1>Phonebook</h1>
-      <div>Filter shown: <input name="searchInput" value={searchName} onChange={handleSearchInput}/></div>
+
+      <SearchFilter searchName={searchName} handleSearchInput={handleSearchInput}/>
+
       <h2>Add a new Number</h2>
-      <form onSubmit={addPerson}>
-        <div>Name: <input name="nameInput" value={newName} onChange={handlePersonInput} /></div>
-        <div>Number: <input name="numberInput" value={newNumber} onChange={handleNumberInput} /></div>
-        <div><button type="submit">Add</button></div>
-      </form>
+
+      <PersonForm addPerson={addPerson} newName={newName} newNumber={newNumber} handlePersonInput={handlePersonInput} handleNumberInput={handleNumberInput} />
+
       <h2>Numbers</h2>
-      <div>
-        {personsToShow.map(person =>
-          <div key={person.name}>
-            {person.name} {person.number}
-          </div>
-        )}
-      </div>
+
+      <PersonList persons={persons} filterName={searchName} />
     </div>
   )
 }
