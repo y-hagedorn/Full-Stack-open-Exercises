@@ -85,15 +85,27 @@ const App = () => {
     <div>
       <h1>Phonebook</h1>
 
-      <SearchFilter searchName={searchName} handleSearchInput={handleSearchInput} />
+      <SearchFilter
+        searchName={searchName}
+        handleSearchInput={handleSearchInput}
+      />
 
       <h2>Add a new Number</h2>
 
-      <PersonForm addPerson={addPerson} newName={newName} newNumber={newNumber} handlePersonInput={handlePersonInput} handleNumberInput={handleNumberInput} />
+      <PersonForm
+        addPerson={addPerson}
+        newName={newName}
+        newNumber={newNumber}
+        handlePersonInput={handlePersonInput}
+        handleNumberInput={handleNumberInput}
+      />
 
       <h2>Numbers</h2>
 
-      <PersonList persons={persons} filterName={searchName} />
+      <PersonList
+        persons={persons}
+        filterName={searchName}
+      />
     </div>
   )
 }
