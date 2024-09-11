@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+
+import personService from './services/persons'
 
 import PersonForm from './components/PersonForm'
 import PersonList from './components/PersonList'
@@ -13,14 +14,17 @@ const App = () => {
 
   useEffect(() => {
     console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
+    personService
+      .getAll()
+      .then(savedPersons => {
         console.log('promise fulfilled')
-        setPersons(response.data)
-      })  
-    }, [])
-    console.log('render', persons.length, 'persons')
+        setPersons(savedPersons)
+      })
+      .catch(error => {
+        console.log('request failed')
+      })
+  }, [])
+  console.log('render', persons.length, 'persons')
 
   const addPerson = (event) => {
     event.preventDefault()
@@ -48,13 +52,16 @@ const App = () => {
       alert(`${personObject.name} is already added to the phonebook`)
     } else {
 
-      axios
-        .post('http://localhost:3001/persons', personObject)
-        .then(response => {
-          console.log(response)
-          setPersons(persons.concat(personObject))
+      personService
+        .create(personObject)
+        .then(returnedPerson => {
+          console.log(returnedPerson)
+          setPersons(persons.concat(returnedPerson))
           setNewName('')
           setNewNumber('')
+        })
+        .catch(error => {
+          console.log('request failed')
         })
     }
   }
@@ -78,7 +85,7 @@ const App = () => {
     <div>
       <h1>Phonebook</h1>
 
-      <SearchFilter searchName={searchName} handleSearchInput={handleSearchInput}/>
+      <SearchFilter searchName={searchName} handleSearchInput={handleSearchInput} />
 
       <h2>Add a new Number</h2>
 
