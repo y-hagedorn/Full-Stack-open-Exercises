@@ -13,6 +13,7 @@ const App = () => {
   const [searchName, setSearchName] = useState('')
 
   useEffect(() => {
+
     console.log('effect')
     personService
       .getAll()
@@ -21,12 +22,13 @@ const App = () => {
         setPersons(savedPersons)
       })
       .catch(error => {
-        console.log('request failed')
+        console.log('get request failed')
       })
   }, [])
   console.log('render', persons.length, 'persons')
 
   const addPerson = (event) => {
+
     event.preventDefault()
     console.log('button clicked', event.target)
 
@@ -37,19 +39,38 @@ const App = () => {
 
     // Check if the name input is empty
     if (newName.trim().length === 0) {
+
       alert("Add a name to the number")
       return
     }
 
     // Check if the number input is empty
     if (newNumber.trim().length === 0) {
+
       alert("Add a number to the name")
       return
     }
 
     // Check if the name already exists in the persons array
     if (persons.some(person => person.name === personObject.name)) {
-      alert(`${personObject.name} is already added to the phonebook`)
+
+      if (window.confirm(`${personObject.name} is already added to the phonebook. 
+        Do you want to replace the old number with a new one?`)) {
+
+        const id = persons.find(person => person.name === personObject.name)?.id
+        const entry = persons.find(p => p.id === id)
+        const changedEntry = { ...entry, number: personObject.number }
+
+        personService
+          .update(id, changedEntry)
+          .then(returnedPerson => {
+            console.log(returnedPerson)
+            setPersons(persons.map(person => person.id !== id ? person : returnedPerson))
+          })
+          .catch(error => {
+            console.log('put request failed')
+          })
+      }
     } else {
 
       personService
@@ -61,7 +82,7 @@ const App = () => {
           setNewNumber('')
         })
         .catch(error => {
-          console.log('request failed')
+          console.log('post request failed')
         })
     }
   }

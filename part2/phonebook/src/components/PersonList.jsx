@@ -18,7 +18,7 @@ const PersonList = ({ persons, filterName }) => {
             console.log(`deleted person with id: ${id}`)
           })
         .catch(error => {
-          console.log('request failed')
+          console.log('delete request failed')
           alert(
             `'${persons.find(person => person.id === id)?.name}' was already deleted from server`      )
         })
@@ -28,7 +28,7 @@ const PersonList = ({ persons, filterName }) => {
   return (
     <div>
       {personsToShow.map(person =>
-        <div key={person.name}>
+        <div key={person.id}>
           {person.name} {person.number} <button onClick={() => deletePersonOf(person.id)}>Delete</button>
         </div>
       )}
