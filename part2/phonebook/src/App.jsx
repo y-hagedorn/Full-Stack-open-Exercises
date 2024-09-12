@@ -5,12 +5,16 @@ import personService from './services/persons'
 import PersonForm from './components/PersonForm'
 import PersonList from './components/PersonList'
 import SearchFilter from './components/SearchFilter'
+import Notification from './components/Notification'
+
+import './index.css'
 
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [searchName, setSearchName] = useState('')
+  const [notification, setNotification] = useState(null)
 
   useEffect(() => {
 
@@ -66,6 +70,12 @@ const App = () => {
           .then(returnedPerson => {
             console.log(returnedPerson)
             setPersons(persons.map(person => person.id !== id ? person : returnedPerson))
+            setNotification(
+              `Updated the number for '${returnedPerson.name}'`
+            )
+            setTimeout(() => {
+              setNotification(null)
+            }, 5000)
           })
           .catch(error => {
             console.log('put request failed')
@@ -80,6 +90,12 @@ const App = () => {
           setPersons(persons.concat(returnedPerson))
           setNewName('')
           setNewNumber('')
+          setNotification(
+            `'${returnedPerson.name}' successfully added to the phonebook`
+          )
+          setTimeout(() => {
+            setNotification(null)
+          }, 5000)
         })
         .catch(error => {
           console.log('post request failed')
@@ -112,6 +128,10 @@ const App = () => {
       />
 
       <h2>Add a new Number</h2>
+
+      <Notification
+        message={notification}
+      />
 
       <PersonForm
         addPerson={addPerson}
