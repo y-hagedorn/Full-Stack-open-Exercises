@@ -15,6 +15,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [searchName, setSearchName] = useState('')
   const [notification, setNotification] = useState(null)
+  const [notificationType, setNotificationType] = useState(null)
 
   useEffect(() => {
 
@@ -70,15 +71,25 @@ const App = () => {
           .then(returnedPerson => {
             console.log(returnedPerson)
             setPersons(persons.map(person => person.id !== id ? person : returnedPerson))
+            setNotificationType('successful')
             setNotification(
               `Updated the number for '${returnedPerson.name}'`
             )
             setTimeout(() => {
               setNotification(null)
+              setNotificationType(null)
             }, 5000)
           })
           .catch(error => {
             console.log('put request failed')
+            setNotificationType('unsuccessful')
+            setNotification(
+              `'${personObject.name}' has already been deleted`
+            )
+            setTimeout(() => {
+              setNotification(null)
+              setNotificationType(null)
+            }, 5000)
           })
       }
     } else {
@@ -90,11 +101,13 @@ const App = () => {
           setPersons(persons.concat(returnedPerson))
           setNewName('')
           setNewNumber('')
+          setNotificationType('successful')
           setNotification(
             `'${returnedPerson.name}' successfully added to the phonebook`
           )
           setTimeout(() => {
             setNotification(null)
+            setNotificationType(null)
           }, 5000)
         })
         .catch(error => {
@@ -131,6 +144,7 @@ const App = () => {
 
       <Notification
         message={notification}
+        type={notificationType}
       />
 
       <PersonForm

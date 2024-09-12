@@ -1,13 +1,21 @@
-const Notification = ({ message }) => {
+const Notification = ({ message, type }) => {
     if (message === null) {
         return null
     }
 
-    return (
-        <div className='successful'>
-            {message}
-        </div>
-    )
+    if (type === 'successful') {
+        return (
+            <div className='successful'>
+                {message}
+            </div>
+        )
+    } else if (type === 'unsuccessful') {
+        return (
+            <div className='unsuccessful'>
+                {message}
+            </div>
+        )
+    }
 }
 
 export default Notification
