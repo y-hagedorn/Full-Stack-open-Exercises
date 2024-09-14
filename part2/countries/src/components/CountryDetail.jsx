@@ -1,3 +1,5 @@
+import WeatherInfo from "./WeatherInfo"
+
 const CountryDetail = ({ country }) => {
 
     console.log('render CountryDetail component')
@@ -20,6 +22,9 @@ const CountryDetail = ({ country }) => {
                 ))}
             </ul>
             <img src={country.flags.png} style={{ height: '100px' }} />
+            <WeatherInfo
+                country={country}
+            />
         </div>
     )
 }
