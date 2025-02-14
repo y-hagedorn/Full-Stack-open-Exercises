@@ -18,7 +18,7 @@ const PersonList = ({ persons, filterName }) => {
             console.log(`deleted person with id: ${id}`)
           })
         .catch(error => {
-          console.log('delete request failed')
+          console.log('delete request failed', error)
           alert(
             `'${persons.find(person => person.id === id)?.name}' was already deleted from server`      )
         })

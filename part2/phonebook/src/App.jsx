@@ -27,7 +27,7 @@ const App = () => {
         setPersons(savedPersons)
       })
       .catch(error => {
-        console.log('get request failed')
+        console.log('get request failed', error)
       })
   }, [])
   console.log('render', persons.length, 'persons')
@@ -81,11 +81,12 @@ const App = () => {
             }, 5000)
           })
           .catch(error => {
-            console.log('put request failed')
+            console.log('put request failed', error)
             setNotificationType('unsuccessful')
             setNotification(
               `'${personObject.name}' has already been deleted`
             )
+            setPersons(persons.filter(n => n.id !== id))
             setTimeout(() => {
               setNotification(null)
               setNotificationType(null)
@@ -112,6 +113,15 @@ const App = () => {
         })
         .catch(error => {
           console.log('post request failed')
+          console.log(error.response.data.error)
+          setNotificationType('unsuccessful')
+          setNotification(
+            error.response.data.error
+          )
+          setTimeout(() => {
+            setNotification(null)
+            setNotificationType(null)
+          }, 5000)
         })
     }
   }
